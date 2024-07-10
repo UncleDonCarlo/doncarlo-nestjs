@@ -9,6 +9,9 @@ export class Information {
   @Column()
   message: string;
 
+  @Column({ default: true, nullable: false })
+  isPublish: boolean;
+
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

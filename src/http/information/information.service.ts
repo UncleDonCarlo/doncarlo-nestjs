@@ -67,8 +67,9 @@ export class InformationService {
           id: info.id,
           message: info.message,
           createdAt: info.createdAt,
+          isPublish: info.isPublish,
           updatedAt: info.updatedAt,
-          categories: info.categories.map(cat => ({
+          category: info.categories.map(cat => ({
             id: cat.id,
             name: cat.name,
           })),
