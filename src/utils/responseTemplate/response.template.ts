@@ -8,8 +8,8 @@ export class ResponseTemplate {
     try {
       const data = await callback(); 
       return {
-        status: 'success',
-        message: 'Data retrieved successfully',
+        status: 200,
+        message: 'Successfully',
         data: data,
       };
     } catch (error) {

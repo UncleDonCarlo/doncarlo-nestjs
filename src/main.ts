@@ -12,8 +12,6 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Accept, Authorization', // Allow specific headers
   });
 
-  app.setGlobalPrefix('/api');
-  
   const config = new DocumentBuilder()
     .setTitle('Doncarlo API')
     .setDescription('Doncarlo description')
