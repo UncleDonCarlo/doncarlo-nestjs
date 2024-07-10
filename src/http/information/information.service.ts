@@ -152,7 +152,7 @@ export class InformationService {
         }
 
         information.deletedAt = new Date();
-        await this.categoryRepository.save(information);
+        await this.informationRepository.save(information);
 
         return {
             "Delete Category " : information.message + " Succesfully"
