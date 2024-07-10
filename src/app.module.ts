@@ -5,13 +5,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './http/users/user.module';
 import { CategoryModule } from './http/category/category.module';
+import { InformationModule } from './http/information/information.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
     UserModule,
-    CategoryModule
+    CategoryModule,
+    InformationModule
   ],
   controllers: [
     AppController,

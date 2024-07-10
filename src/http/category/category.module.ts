@@ -11,10 +11,18 @@ import { UserModule } from '../users/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forFeature([Categories,CategoryRepository]),
-    UserModule
+    TypeOrmModule.forFeature([Categories]),
+    UserModule,
   ],
   controllers: [CategoryController],
-  providers: [CategoryService,ResponseTemplate,],
+  providers: [
+    CategoryService,
+    ResponseTemplate,
+    {
+      provide: 'CategoryRepository',
+      useClass: CategoryRepository,
+    },
+  ],
+  exports: ['CategoryRepository'],
 })
 export class CategoryModule {}
