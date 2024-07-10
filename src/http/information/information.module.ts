@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ResponseTemplate } from 'src/utils/responseTemplate/response.template';
@@ -14,7 +14,7 @@ import { CategoryModule } from '../category/category.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forFeature([Information]),
     UserModule,
-    CategoryModule,
+    forwardRef(() => CategoryModule),
   ],
   controllers: [InformationController],
   providers: [
@@ -25,5 +25,6 @@ import { CategoryModule } from '../category/category.module';
       useClass: InformationRepository,
     },
   ],
+  exports: ['InformationRepository'],
 })
 export class InformationModule {}

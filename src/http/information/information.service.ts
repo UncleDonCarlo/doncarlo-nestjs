@@ -5,6 +5,7 @@ import { InformationRepository } from './entity/information.repository';
 import { InformationRequest } from './dto/informationRequest';
 import { CategoryRepository } from '../category/entity/category.repository';
 import { PutPublishRequest } from './dto/putIsPublishRequest';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class InformationService {
@@ -52,27 +53,11 @@ export class InformationService {
         };
     }
 
-    async getAllInformation(): Promise<any[]> {
-        const informations = await this.informationRepository.createQueryBuilder('information')
-            .leftJoinAndSelect('information.categories', 'category')
-            .where('information.deletedAt IS NULL')
-            .getMany();
+    async getAllInformation(page:number, limit:number): Promise<Pagination<Information>> {
+        const queryBuilder = this.informationRepository.createQueryBuilder('information');
+        queryBuilder.where('information.deletedAt IS NULL');
 
-        if (!informations || informations.length === 0) {
-            throw new NotFoundException('No information found');
-        }
-
-        return informations.map(info => ({
-            id: info.id,
-            message: info.message,
-            createdAt: info.createdAt,
-            isPublish: info.isPublish,
-            updatedAt: info.updatedAt,
-            category: info.categories.map(cat => ({
-                id: cat.id,
-                name: cat.name,
-            })),
-        }));
+        return paginate<Information>(queryBuilder, { page, limit });
     }
 
     async updatePublish(putPublishRequest:PutPublishRequest): Promise<any> {

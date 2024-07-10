@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Res, UseGuards, Put, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Res, UseGuards, Put, Delete, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ResponseTemplate } from 'src/utils/responseTemplate/response.template';
@@ -23,8 +23,11 @@ export class InformationController {
     @Get('/')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async getAllInformations(@Res() res: Response) {
-      return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.getAllInformation()));
+    async getAllInformations(
+        @Query('page', new DefaultValuePipe(1) , ParseIntPipe) page:number,
+        @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
+        @Res() res: Response) {
+        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.getAllInformation(page,limit)));
     }
 
     @Put('/isPublish')
