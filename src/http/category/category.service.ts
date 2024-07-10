@@ -118,14 +118,14 @@ export class CategoryService {
         .getOne();
 
         if (!category) {
-            throw new NotFoundException('Category not found');
+            throw new NotFoundException('Category was not found');
         }
 
         category.deletedAt = new Date();
         await this.categoryRepository.save(category);
 
         return {
-            "Delete Category : " : category.name + " Succesfully"
+            "Delete Category " : category.name + " Succesfully"
         }
     }
 

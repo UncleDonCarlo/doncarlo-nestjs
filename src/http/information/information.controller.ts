@@ -41,4 +41,12 @@ export class InformationController {
         return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.modifyInformation(id,InformationRequest)));
     }
 
+    
+    @Delete('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    async deleteInformation(@Param('id') id: number,@Res() res: Response) {
+        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.deleteInformation(id)));
+    }
+
 }

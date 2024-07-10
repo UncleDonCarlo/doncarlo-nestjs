@@ -141,6 +141,24 @@ export class InformationService {
         };
     }
 
+    async deleteInformation(id:number): Promise<any>{
+        const information = await this.informationRepository.createQueryBuilder('information')
+        .where('information.id = :id', { id })
+        .andWhere('information.deletedAt IS NULL')
+        .getOne();
+
+        if (!information) {
+            throw new NotFoundException('Information was not found');
+        }
+
+        information.deletedAt = new Date();
+        await this.categoryRepository.save(information);
+
+        return {
+            "Delete Category " : information.message + " Succesfully"
+        }
+    }
+
 
 
 }
