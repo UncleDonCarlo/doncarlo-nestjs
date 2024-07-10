@@ -16,6 +16,8 @@ export class InformationController {
     ) { }
 
     @Post('/')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
     async createUser(@Body() informationRequest: InformationRequest, @Res() res: Response) {
       return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.createInformation(informationRequest)));
     }
