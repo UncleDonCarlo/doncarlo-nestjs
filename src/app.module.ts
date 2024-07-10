@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MessageModule } from './gateway/message.module';
 import { UserModule } from './http/users/user.module';
 
 @Module({
@@ -11,7 +10,6 @@ import { UserModule } from './http/users/user.module';
     ConfigModule.forRoot(),
     DatabaseModule,
     UserModule,
-    MessageModule
   ],
   controllers: [
     AppController,
