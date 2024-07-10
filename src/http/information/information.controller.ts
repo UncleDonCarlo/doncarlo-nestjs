@@ -5,6 +5,7 @@ import { ResponseTemplate } from 'src/utils/responseTemplate/response.template';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { InformationRequest } from './dto/informationRequest';
 import { InformationService } from './information.service';
+import { PutPublishRequest } from './dto/putIsPublishRequest';
 
 @ApiTags('informations')
 @Controller('informations')
@@ -24,6 +25,20 @@ export class InformationController {
     @ApiBearerAuth('accessToken')
     async getAllInformations(@Res() res: Response) {
       return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.getAllInformation()));
+    }
+
+    @Put('/isPublish')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    async putIsPublishInformations(@Body() PutPublishRequest:PutPublishRequest , @Res() res: Response) {
+      return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.updatePublish(PutPublishRequest)));
+    }
+
+    @Put('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    async modifyInformation(@Param('id') id: number, @Body() InformationRequest: InformationRequest,@Res() res: Response) {
+        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.modifyInformation(id,InformationRequest)));
     }
 
 }
