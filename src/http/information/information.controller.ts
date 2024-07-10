@@ -19,4 +19,11 @@ export class InformationController {
       return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.createInformation(informationRequest)));
     }
 
+    @Get('/')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    async getAllInformations(@Res() res: Response) {
+      return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.getAllInformation()));
+    }
+
 }

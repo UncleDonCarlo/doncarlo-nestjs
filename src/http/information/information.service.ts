@@ -53,27 +53,27 @@ export class InformationService {
         };
     }
 
-
-    //   async getAllInformation(): Promise<any[]>{
-    //     const categories = await this.informationRepository.createQueryBuilder('information')
-    //         .where('information.deletedAt IS NULL')
-    //         .getMany();
-
-    //         if (!categories || categories.length === 0) {
-    //             throw new NotFoundException('Informations not found');
-    //         }
-
-    //         return categories.map(category => ({
-    //             id: category.id,
-    //             name: category.name,
-    //             createdAt: category.createdAt,
-    //             updatedAt: category.updatedAt,
-    //         }));
-
-
-    //     return 
-
-    //   }
+    async getAllInformation(): Promise<any[]> {
+        const informations = await this.informationRepository.createQueryBuilder('information')
+          .leftJoinAndSelect('information.categories', 'category')
+          .where('information.deletedAt IS NULL')
+          .getMany();
+    
+        if (!informations || informations.length === 0) {
+          throw new NotFoundException('No information found');
+        }
+    
+        return informations.map(info => ({
+          id: info.id,
+          message: info.message,
+          createdAt: info.createdAt,
+          updatedAt: info.updatedAt,
+          categories: info.categories.map(cat => ({
+            id: cat.id,
+            name: cat.name,
+          })),
+        }));
+      }
 
 
 }
