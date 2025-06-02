@@ -21,6 +21,18 @@ export class ProjectService {
         return paginate<Project>(queryBuilder, { page, limit });
     }
 
+    async getProjectById(id: number): Promise<Project> {
+        const project = await this.projectRepository.findOne({
+            where: { id, deletedAt: null }
+        });
+
+        if (!project) {
+            throw new NotFoundException(`Project with ID ${id} not found`);
+        }
+
+        return project;
+    }
+
     async createProject(projectRequest: ProjectRequest,file: Express.Multer.File): Promise<any> {
         const existingProject = await this.projectRepository.findOne({
             where: { name: projectRequest.name }
@@ -33,10 +45,33 @@ export class ProjectService {
         const newproject = this.projectRepository.create({
             name: projectRequest.name,
             description: projectRequest.description,
-            imgPath: this.configService.get<string>('ENDPOINT_URL') + "/assets/" + file?.filename || null,
+            imgPath: file?.filename 
+                ? this.configService.get<string>('ENDPOINT_URL') + "/assets/" + file?.filename
+                : null,
         });
 
         return this.projectRepository.save(newproject);
+    }
+
+    async updateProject(id: number, projectRequest: ProjectRequest,file: Express.Multer.File): Promise<Project> {
+        const project = await this.getProjectById(id);
+
+        project.name = projectRequest.name;
+        project.description = projectRequest.description;
+        project.href = projectRequest.href;
+        project.imgPath = file?.filename 
+            ? this.configService.get<string>('ENDPOINT_URL') + "/assets/" + file?.filename
+            : null;
+
+        return this.projectRepository.save(project);
+    }
+
+    async deleteProject(id: number): Promise<void> {
+        const project = await this.getProjectById(id);
+
+        project.deletedAt = new Date();
+
+        await this.projectRepository.save(project);
     }
 
 

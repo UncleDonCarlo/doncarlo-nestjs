@@ -61,6 +61,57 @@ export class ProjectController {
         );
     }
 
+    @Get('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    async getProjectById(@Param('id') id: number, @Res() res: Response) {
+        return res.status(200).json(
+            await this.responseTemplate.createResponseTemplate(() => 
+                this.projectService.getProjectById(id)
+            )
+        );
+    }
+
+    @Put('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    @UseInterceptors(FileInterceptor('img', {
+        storage: diskStorage({
+            destination: './uploads',
+            filename: (req: Request, file: any, cb: any) => {
+                const originalNameTrimmed = file.originalname.replace(/\s+/g, '');
+                const filename = `${Date.now()}-${originalNameTrimmed}`;
+                cb(null, filename);
+            },
+        }),
+    }))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody(CreateProjectSwaggerSchema)
+    @ApiOperation({ summary: 'Update a Project', description: 'This endpoint updates an existing project and returns the response.' })
+    async updateProject(
+        @Param('id') id: number,
+        @Body() projectRequest: ProjectRequest,
+        @UploadedFile() file: Express.Multer.File,
+        @Res() res: Response
+    ) {
+        return res.status(200).json(
+            await this.responseTemplate.createResponseTemplate(() => 
+                this.projectService.updateProject(id, projectRequest, file)
+            )
+        );
+    }
+
+    @Delete('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    async deleteProject(@Param('id') id: number, @Res() res: Response) {
+        return res.status(200).json(
+            await this.responseTemplate.createResponseTemplate(() => 
+                this.projectService.deleteProject(id)
+            )
+        );
+    }
+
 
  
 
