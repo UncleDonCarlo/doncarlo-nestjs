@@ -12,6 +12,9 @@ export class Project {
   description: string;
 
   @Column({ type: 'longtext', nullable: false, default: null })
+  href: string;
+
+  @Column({ type: 'longtext', nullable: false, default: null })
   imgPath: string;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })

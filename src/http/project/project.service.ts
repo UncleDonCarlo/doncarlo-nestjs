@@ -4,12 +4,14 @@ import { ProjectRepository } from './entity/project.repository';
 import { Project } from './entity/project.entity';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { ProjectRequest } from './dto/projectRequest';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ProjectService {
     constructor(
         @InjectRepository(Project)
         private readonly projectRepository: ProjectRepository,
+        private readonly configService: ConfigService,
     ) { }
 
     async getAllProject(page: number, limit: number): Promise<Pagination<Project>> {
@@ -37,7 +39,7 @@ export class ProjectService {
         const newproject = this.projectRepository.create({
             name: projectRequest.name,
             description: projectRequest.description,
-            imgPath: file?.path || null,
+            imgPath: this.configService.get<string>('ENDPOINT_URL') + "/assets/" + file?.filename || null,
         });
 
         return this.projectRepository.save(newproject);

@@ -7,8 +7,7 @@ import { ProjectService } from './project.service';
 import { ProjectRequest } from './dto/projectRequest';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { Express } from 'express';
-import { Request } from 'express';
+import { Express, Request } from 'express';
 import { CreateProjectSwaggerSchema } from './dto/projectBody';
 
 @ApiTags('projects')
@@ -40,8 +39,9 @@ export class ProjectController {
     @UseInterceptors(FileInterceptor('img', {
         storage: diskStorage({
             destination: './uploads',
-            filename: (req:Request, file:any, cb:any) => {
-                const filename = `${Date.now()}-${file.originalname}`;
+            filename: (req: Request, file: any, cb: any) => {
+                const originalNameTrimmed = file.originalname.replace(/\s+/g, '');
+                const filename = `${Date.now()}-${originalNameTrimmed}`;
                 cb(null, filename);
             },
         }),

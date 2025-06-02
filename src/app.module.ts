@@ -8,9 +8,15 @@ import { CategoryModule } from './http/category/category.module';
 import { InformationModule } from './http/information/information.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ProjectModule } from './http/project/project.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/assets',
+    }),
     ConfigModule.forRoot(),
     DatabaseModule,
     UserModule,

@@ -7,6 +7,7 @@ export const CreateProjectSwaggerSchema: ApiBodyOptions = {
     properties: {
       name: { type: 'string', example: 'My Project' },
       description: { type: 'string', example: 'This is a project' },
+      href: { type: 'string', example: 'www.uncledoncarlo.com/project' },
       img: {
         type: 'string',
         format: 'binary',

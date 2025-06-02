@@ -10,4 +10,8 @@ export class ProjectRequest {
     @ApiProperty()
     @IsInt()
     description: string;
+
+    @ApiProperty()
+    @IsString()
+    href: string;
 }
