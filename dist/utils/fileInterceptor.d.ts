@@ -1,1 +1,1 @@
-export declare function FileImageUploadInterceptor(fieldName: string): Type<import("@nestjs/common").NestInterceptor<any, any>>;
+export declare function FileImageUploadInterceptor(fieldName: string): import("@nestjs/common").Type<import("@nestjs/common").NestInterceptor<any, any>>;
