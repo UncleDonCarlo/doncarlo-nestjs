@@ -5,9 +5,7 @@ import { ResponseTemplate } from 'src/utils/responseTemplate/response.template';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { ProjectService } from './project.service';
 import { ProjectRequest } from './dto/projectRequest';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { Express, Request } from 'express';
+import { Express } from 'express';
 import { CreateProjectSwaggerSchema } from './dto/projectBody';
 import { FileImageUploadInterceptor } from 'src/utils/fileInterceptor';
 
