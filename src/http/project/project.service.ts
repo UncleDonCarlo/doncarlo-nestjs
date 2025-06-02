@@ -29,12 +29,6 @@ export class ProjectService {
         if (existingProject) {
             throw new BadRequestException('Project with this name already exists');
         }
-        if (!projectRequest.name || !projectRequest.description) {
-            throw new BadRequestException('Name and description are required');
-        }
-        if (file && !file.mimetype.startsWith('image/')) {
-            throw new BadRequestException('File must be an image');
-        }
 
         const newproject = this.projectRepository.create({
             name: projectRequest.name,
