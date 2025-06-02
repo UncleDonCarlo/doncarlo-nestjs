@@ -11,7 +11,7 @@ export class ProjectService {
     constructor(
         @InjectRepository(Project)
         private readonly projectRepository: ProjectRepository,
-        private readonly configService: ConfigService,
+        private readonly configService: ConfigService
     ) { }
 
     async getAllProject(page: number, limit: number): Promise<Pagination<Project>> {
