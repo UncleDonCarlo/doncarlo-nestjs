@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Res, UseGuards, Put, Delete, Query, DefaultValuePipe, ParseIntPipe, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Res, UseGuards, Put, Delete, Query, DefaultValuePipe, ParseIntPipe, UseInterceptors, UploadedFile, Patch } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { ResponseTemplate } from 'src/utils/responseTemplate/response.template';
@@ -70,6 +70,26 @@ export class ProjectController {
     @ApiBody(CreateProjectSwaggerSchema)
     @ApiOperation({ summary: 'Update a Project', description: 'This endpoint updates an existing project and returns the response.' })
     async updateProject(
+        @Param('id') id: number,
+        @Body() projectRequest: ProjectRequest,
+        @UploadedFile() file: Express.Multer.File,
+        @Res() res: Response
+    ) {
+        return res.status(200).json(
+            await this.responseTemplate.createResponseTemplate(() => 
+                this.projectService.updateProject(id, projectRequest, file)
+            )
+        );
+    }
+
+    @Patch('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('accessToken')
+    @UseInterceptors(FileImageUploadInterceptor('img'))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody(CreateProjectSwaggerSchema)
+    @ApiOperation({ summary: 'Patch a Project', description: 'This endpoint patches an existing project and returns the response.' })
+    async patchProject(
         @Param('id') id: number,
         @Body() projectRequest: ProjectRequest,
         @UploadedFile() file: Express.Multer.File,
