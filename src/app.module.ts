@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { UserModule } from './http/users/user.module';
 import { CategoryModule } from './http/category/category.module';
 import { InformationModule } from './http/information/information.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ProjectModule } from './http/project/project.module';
 
 @Module({
   imports: [
@@ -13,7 +15,9 @@ import { InformationModule } from './http/information/information.module';
     DatabaseModule,
     UserModule,
     CategoryModule,
-    InformationModule
+    ScheduleModule.forRoot(),
+    InformationModule,
+    ProjectModule
   ],
   controllers: [
     AppController,
