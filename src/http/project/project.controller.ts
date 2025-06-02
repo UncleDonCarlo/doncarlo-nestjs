@@ -9,6 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Express, Request } from 'express';
 import { CreateProjectSwaggerSchema } from './dto/projectBody';
+import { FileImageUploadInterceptor } from 'src/utils/fileInterceptor';
 
 @ApiTags('projects')
 @Controller('projects')
@@ -36,16 +37,7 @@ export class ProjectController {
     @Post('/')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    @UseInterceptors(FileInterceptor('img', {
-        storage: diskStorage({
-            destination: './uploads',
-            filename: (req: Request, file: any, cb: any) => {
-                const originalNameTrimmed = file.originalname.replace(/\s+/g, '');
-                const filename = `${Date.now()}-${originalNameTrimmed}`;
-                cb(null, filename);
-            },
-        }),
-    }))
+    @UseInterceptors(FileImageUploadInterceptor('img'))
     @ApiConsumes('multipart/form-data')
     @ApiBody(CreateProjectSwaggerSchema)
     @ApiOperation({ summary: 'Create a Project', description: 'This endpoint creates a new project and returns the response.' })
@@ -75,16 +67,7 @@ export class ProjectController {
     @Put('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    @UseInterceptors(FileInterceptor('img', {
-        storage: diskStorage({
-            destination: './uploads',
-            filename: (req: Request, file: any, cb: any) => {
-                const originalNameTrimmed = file.originalname.replace(/\s+/g, '');
-                const filename = `${Date.now()}-${originalNameTrimmed}`;
-                cb(null, filename);
-            },
-        }),
-    }))
+    @UseInterceptors(FileImageUploadInterceptor('img'))
     @ApiConsumes('multipart/form-data')
     @ApiBody(CreateProjectSwaggerSchema)
     @ApiOperation({ summary: 'Update a Project', description: 'This endpoint updates an existing project and returns the response.' })

@@ -22,9 +22,11 @@ export class ProjectService {
     }
 
     async getProjectById(id: number): Promise<Project> {
-        const project = await this.projectRepository.findOne({
-            where: { id, deletedAt: null }
-        });
+        const project = await this.projectRepository
+        .createQueryBuilder('project')
+        .where('project.id = :id', { id: id })
+        .andWhere('project.deletedAt IS NULL')
+        .getOne();
 
         if (!project) {
             throw new NotFoundException(`Project with ID ${id} not found`);
@@ -34,9 +36,11 @@ export class ProjectService {
     }
 
     async createProject(projectRequest: ProjectRequest,file: Express.Multer.File): Promise<any> {
-        const existingProject = await this.projectRepository.findOne({
-            where: { name: projectRequest.name }
-        })
+        const existingProject = await this.projectRepository
+        .createQueryBuilder('project')
+        .where('project.name = :name', { name: projectRequest.name })
+        .andWhere('project.deletedAt IS NULL')
+        .getOne();
 
         if (existingProject) {
             throw new BadRequestException('Project with this name already exists');
