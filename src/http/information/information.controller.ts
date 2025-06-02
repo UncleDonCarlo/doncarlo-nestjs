@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Param, Res, UseGuards, Put, Delete, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { ResponseTemplate } from 'src/utils/responseTemplate/response.template';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { InformationRequest } from './dto/informationRequest';
@@ -18,6 +18,7 @@ export class InformationController {
     @Post('/')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
+    @ApiOperation({ summary: 'Create a Information', description: 'This endpoint creates a new Informations and returns the response.' })
     async createUser(@Body() informationRequest: InformationRequest, @Res() res: Response) {
       return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.createInformation(informationRequest)));
     }

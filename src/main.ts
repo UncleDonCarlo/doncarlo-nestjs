@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as express from 'express';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +14,9 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Accept, Authorization', // Allow specific headers
   });
 
+  app.use(express.static(path.join(__dirname, '..', 'public')));
+  app.setGlobalPrefix('/api');
+  
   const config = new DocumentBuilder()
     .setTitle('Doncarlo API')
     .setDescription('Doncarlo description')
@@ -30,7 +35,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/swagger', app, document); // Setup Swagger path
   
-  await app.listen(8080);
+  await app.listen(8081);
 }
 
 bootstrap();
