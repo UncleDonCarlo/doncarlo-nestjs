@@ -6,7 +6,7 @@ export declare class ProjectController {
     private readonly responseTemplate;
     private readonly projectService;
     constructor(responseTemplate: ResponseTemplate, projectService: ProjectService);
-    getAllInformations(page: number, limit: number, res: Response): Promise<Response<any, Record<string, any>>>;
+    getAllProjects(page: number, limit: number, res: Response): Promise<Response<any, Record<string, any>>>;
     createUser(projectRequest: ProjectRequest, file: Express.Multer.File, res: Response): Promise<Response<any, Record<string, any>>>;
     getProjectById(id: number, res: Response): Promise<Response<any, Record<string, any>>>;
     updateProject(id: number, projectRequest: ProjectRequest, file: Express.Multer.File, res: Response): Promise<Response<any, Record<string, any>>>;

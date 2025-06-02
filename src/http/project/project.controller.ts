@@ -18,9 +18,7 @@ export class ProjectController {
     ) { }
 
     @Get('/')
-    @UseGuards(AuthGuard)
-    @ApiBearerAuth('accessToken')
-    async getAllInformations(
+    async getAllProjects(
         @Query('page', new DefaultValuePipe(1) , ParseIntPipe) page:number,
         @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
         @Res() res: Response

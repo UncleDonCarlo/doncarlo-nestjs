@@ -26,7 +26,7 @@ let ProjectController = class ProjectController {
         this.responseTemplate = responseTemplate;
         this.projectService = projectService;
     }
-    async getAllInformations(page, limit, res) {
+    async getAllProjects(page, limit, res) {
         return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.projectService.getAllProject(page, limit)));
     }
     async createUser(projectRequest, file, res) {
@@ -48,15 +48,13 @@ let ProjectController = class ProjectController {
 exports.ProjectController = ProjectController;
 __decorate([
     (0, common_1.Get)('/'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, swagger_1.ApiBearerAuth)('accessToken'),
     __param(0, (0, common_1.Query)('page', new common_1.DefaultValuePipe(1), common_1.ParseIntPipe)),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Number, Object]),
     __metadata("design:returntype", Promise)
-], ProjectController.prototype, "getAllInformations", null);
+], ProjectController.prototype, "getAllProjects", null);
 __decorate([
     (0, common_1.Post)('/'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
