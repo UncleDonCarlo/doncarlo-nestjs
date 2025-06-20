@@ -17,25 +17,25 @@ export class UserController {
 
   @Post('register')
   async createUser(@Body() userData: UserRequest, @Res() res: Response) {
-    return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.userService.createUser(userData)));
+    return await this.responseTemplate.createResponseTemplate(() => this.userService.createUser(userData));
   }
 
   @Post('login')
   async login(@Body() loginRequest: LoginRequest, @Res() res: Response) {
-    return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.userService.login(loginRequest)));
+    return await this.responseTemplate.createResponseTemplate(() => this.userService.login(loginRequest));
   }
 
   @Get('/:id')
   @UseGuards(AuthGuard)
   @ApiBearerAuth('accessToken')
   async getUser(@Param('id') id: number, @Res() res: Response) {
-    return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.userService.getUserById(id)));
+    return await this.responseTemplate.createResponseTemplate(() => this.userService.getUserById(id));
   }
 
   @Get('/')
   @UseGuards(AuthGuard)
   @ApiBearerAuth('accessToken')
   async getAllUsers(@Res() res: Response) {
-    return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.userService.getAllUsers()));
+    return await this.responseTemplate.createResponseTemplate(() => this.userService.getAllUsers());
   }
 }

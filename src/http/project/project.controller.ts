@@ -23,10 +23,8 @@ export class ProjectController {
         @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
         @Res() res: Response
     ) {
-        return res.status(200).json(
-            await this.responseTemplate.createResponseTemplate(() => 
-                this.projectService.getAllProject(page,limit)
-            )
+        return await this.responseTemplate.createResponseTemplate(() => 
+            this.projectService.getAllProject(page,limit)
         );
     }
 
@@ -42,10 +40,8 @@ export class ProjectController {
         @UploadedFile() file: Express.Multer.File,
         @Res() res: Response
     ) {
-        return res.status(200).json(
-            await this.responseTemplate.createResponseTemplate(() => 
-                this.projectService.createProject(projectRequest, file)
-            )
+        return await this.responseTemplate.createResponseTemplate(() => 
+            this.projectService.createProject(projectRequest, file)
         );
     }
 
@@ -73,10 +69,8 @@ export class ProjectController {
         @UploadedFile() file: Express.Multer.File,
         @Res() res: Response
     ) {
-        return res.status(200).json(
-            await this.responseTemplate.createResponseTemplate(() => 
-                this.projectService.updateProject(id, projectRequest, file)
-            )
+        return await this.responseTemplate.createResponseTemplate(() => 
+            this.projectService.updateProject(id, projectRequest, file)
         );
     }
 
@@ -104,10 +98,8 @@ export class ProjectController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async deleteProject(@Param('id') id: number, @Res() res: Response) {
-        return res.status(200).json(
-            await this.responseTemplate.createResponseTemplate(() => 
-                this.projectService.deleteProject(id)
-            )
+        return await this.responseTemplate.createResponseTemplate(() => 
+            this.projectService.deleteProject(id)
         );
     }
 
