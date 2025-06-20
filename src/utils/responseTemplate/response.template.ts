@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class ResponseTemplate {
@@ -6,17 +6,24 @@ export class ResponseTemplate {
 
   async createResponseTemplate(callback: () => Promise<any>): Promise<any> {
     try {
-      const data = await callback(); 
+      const data = await callback();
       return {
-        status: 200,
+        status: HttpStatus.OK,
         message: 'Successfully',
-        data: data,
+        data,
       };
     } catch (error) {
-      return {
-        status: error.status,
-        message: error.message,
-      };
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new HttpException(
+        {
+          status: error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message || 'Internal Server Error',
+        },
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
