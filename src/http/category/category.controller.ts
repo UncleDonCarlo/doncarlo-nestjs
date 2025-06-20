@@ -19,14 +19,14 @@ export class CategoryController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async createUser(@Body() categoryRequest: CategoryRequest, @Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.categoryService.createCategory(categoryRequest)));
+        return await this.responseTemplate.createResponseTemplate(() => this.categoryService.createCategory(categoryRequest));
     }
 
     @Get('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async getCategoryById(@Param('id') id: number, @Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.categoryService.getCateogryById(id)));
+        return await this.responseTemplate.createResponseTemplate(() => this.categoryService.getCateogryById(id));
     }
 
     @Get('/')
@@ -36,20 +36,20 @@ export class CategoryController {
         @Query('page', new DefaultValuePipe(1) , ParseIntPipe) page:number,
         @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
         @Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.categoryService.getAllCategories(page,limit)));
+        return await this.responseTemplate.createResponseTemplate(() => this.categoryService.getAllCategories(page,limit));
     }
 
     @Put('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async modifyCategory(@Param('id') id: number, @Body() categoryRequest: CategoryRequest,@Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.categoryService.modifyCategory(id,categoryRequest)));
+        return await this.responseTemplate.createResponseTemplate(() => this.categoryService.modifyCategory(id,categoryRequest));
     }
 
     @Delete('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async deleteCategory(@Param('id') id: number,@Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.categoryService.deleteCategory(id)));
+        return await this.responseTemplate.createResponseTemplate(() => this.categoryService.deleteCategory(id));
     }
 }

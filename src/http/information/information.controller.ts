@@ -20,7 +20,7 @@ export class InformationController {
     @ApiBearerAuth('accessToken')
     @ApiOperation({ summary: 'Create a Information', description: 'This endpoint creates a new Informations and returns the response.' })
     async createUser(@Body() informationRequest: InformationRequest, @Res() res: Response) {
-      return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.createInformation(informationRequest)));
+      return await this.responseTemplate.createResponseTemplate(() => this.informationService.createInformation(informationRequest));
     }
 
     @Get('/')
@@ -30,21 +30,21 @@ export class InformationController {
         @Query('page', new DefaultValuePipe(1) , ParseIntPipe) page:number,
         @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
         @Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.getAllInformation(page,limit)));
+        return await this.responseTemplate.createResponseTemplate(() => this.informationService.getAllInformation(page,limit));
     }
 
     @Put('/isPublish')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async putIsPublishInformations(@Body() PutPublishRequest:PutPublishRequest , @Res() res: Response) {
-      return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.updatePublish(PutPublishRequest)));
+      return await this.responseTemplate.createResponseTemplate(() => this.informationService.updatePublish(PutPublishRequest));
     }
 
     @Put('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async modifyInformation(@Param('id') id: number, @Body() InformationRequest: InformationRequest,@Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.modifyInformation(id,InformationRequest)));
+        return await this.responseTemplate.createResponseTemplate(() => this.informationService.modifyInformation(id,InformationRequest));
     }
 
     
@@ -52,7 +52,7 @@ export class InformationController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     async deleteInformation(@Param('id') id: number,@Res() res: Response) {
-        return res.status(200).json(await this.responseTemplate.createResponseTemplate(() => this.informationService.deleteInformation(id)));
+        return await this.responseTemplate.createResponseTemplate(() => this.informationService.deleteInformation(id));
     }
 
 }
