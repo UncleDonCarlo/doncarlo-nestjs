@@ -21,7 +21,6 @@ export class ProjectController {
     async getAllProjects(
         @Query('page', new DefaultValuePipe(1) , ParseIntPipe) page:number,
         @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
-        @Res() res: Response
     ) {
         return await this.responseTemplate.createResponseTemplate(() => 
             this.projectService.getAllProject(page,limit)

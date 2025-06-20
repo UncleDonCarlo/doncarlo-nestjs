@@ -15,6 +15,8 @@ export class ProjectService {
     ) { }
 
     async getAllProject(page: number, limit: number): Promise<Pagination<Project>> {
+        if(page < 1) page = 1;
+        
         const queryBuilder = this.projectRepository.createQueryBuilder('project');
         queryBuilder.where('project.deletedAt IS NULL');
 
