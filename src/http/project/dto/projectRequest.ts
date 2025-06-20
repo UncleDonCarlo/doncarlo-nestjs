@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsInt, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class ProjectRequest {
     @ApiProperty()
@@ -8,7 +8,8 @@ export class ProjectRequest {
     name: string;
 
     @ApiProperty()
-    @IsInt()
+    @IsString()
+    @IsNotEmpty()
     description: string;
 
     @ApiProperty()
