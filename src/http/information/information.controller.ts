@@ -19,7 +19,7 @@ export class InformationController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
     @ApiOperation({ summary: 'Create a Information', description: 'This endpoint creates a new Informations and returns the response.' })
-    async createUser(@Body() informationRequest: InformationRequest, @Res() res: Response) {
+    async createUser(@Body() informationRequest: InformationRequest) {
       return await this.responseTemplate.createResponseTemplate(() => this.informationService.createInformation(informationRequest));
     }
 
@@ -29,21 +29,21 @@ export class InformationController {
     async getAllInformations(
         @Query('page', new DefaultValuePipe(1) , ParseIntPipe) page:number,
         @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
-        @Res() res: Response) {
+        ) {
         return await this.responseTemplate.createResponseTemplate(() => this.informationService.getAllInformation(page,limit));
     }
 
     @Put('/isPublish')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async putIsPublishInformations(@Body() PutPublishRequest:PutPublishRequest , @Res() res: Response) {
+    async putIsPublishInformations(@Body() PutPublishRequest:PutPublishRequest) {
       return await this.responseTemplate.createResponseTemplate(() => this.informationService.updatePublish(PutPublishRequest));
     }
 
     @Put('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async modifyInformation(@Param('id') id: number, @Body() InformationRequest: InformationRequest,@Res() res: Response) {
+    async modifyInformation(@Param('id') id: number, @Body() InformationRequest: InformationRequest) {
         return await this.responseTemplate.createResponseTemplate(() => this.informationService.modifyInformation(id,InformationRequest));
     }
 
@@ -51,7 +51,7 @@ export class InformationController {
     @Delete('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async deleteInformation(@Param('id') id: number,@Res() res: Response) {
+    async deleteInformation(@Param('id') id: number) {
         return await this.responseTemplate.createResponseTemplate(() => this.informationService.deleteInformation(id));
     }
 

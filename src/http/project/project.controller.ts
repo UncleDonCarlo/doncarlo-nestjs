@@ -37,8 +37,7 @@ export class ProjectController {
     @ApiOperation({ summary: 'Create a Project', description: 'This endpoint creates a new project and returns the response.' })
     async createUser(
         @Body() projectRequest: ProjectRequest,
-        @UploadedFile() file: Express.Multer.File,
-        @Res() res: Response
+        @UploadedFile() file: Express.Multer.File
     ) {
         return await this.responseTemplate.createResponseTemplate(() => 
             this.projectService.createProject(projectRequest, file)
@@ -48,11 +47,9 @@ export class ProjectController {
     @Get('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async getProjectById(@Param('id') id: number, @Res() res: Response) {
-        return res.status(200).json(
-            await this.responseTemplate.createResponseTemplate(() => 
-                this.projectService.getProjectById(id)
-            )
+    async getProjectById(@Param('id') id: number) {
+        return await this.responseTemplate.createResponseTemplate(() => 
+            this.projectService.getProjectById(id)
         );
     }
 
@@ -66,8 +63,7 @@ export class ProjectController {
     async updateProject(
         @Param('id') id: number,
         @Body() projectRequest: ProjectRequest,
-        @UploadedFile() file: Express.Multer.File,
-        @Res() res: Response
+        @UploadedFile() file: Express.Multer.File
     ) {
         return await this.responseTemplate.createResponseTemplate(() => 
             this.projectService.updateProject(id, projectRequest, file)
@@ -84,20 +80,17 @@ export class ProjectController {
     async patchProject(
         @Param('id') id: number,
         @Body() projectRequest: ProjectRequest,
-        @UploadedFile() file: Express.Multer.File,
-        @Res() res: Response
+        @UploadedFile() file: Express.Multer.File
     ) {
-        return res.status(200).json(
-            await this.responseTemplate.createResponseTemplate(() => 
-                this.projectService.updateProject(id, projectRequest, file)
-            )
+        return await this.responseTemplate.createResponseTemplate(() => 
+            this.projectService.updateProject(id, projectRequest, file)
         );
     }
 
     @Delete('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async deleteProject(@Param('id') id: number, @Res() res: Response) {
+    async deleteProject(@Param('id') id: number) {
         return await this.responseTemplate.createResponseTemplate(() => 
             this.projectService.deleteProject(id)
         );

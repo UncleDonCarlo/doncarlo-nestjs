@@ -18,14 +18,14 @@ export class CategoryController {
     @Post('')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async createUser(@Body() categoryRequest: CategoryRequest, @Res() res: Response) {
+    async createUser(@Body() categoryRequest: CategoryRequest) {
         return await this.responseTemplate.createResponseTemplate(() => this.categoryService.createCategory(categoryRequest));
     }
 
     @Get('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async getCategoryById(@Param('id') id: number, @Res() res: Response) {
+    async getCategoryById(@Param('id') id: number) {
         return await this.responseTemplate.createResponseTemplate(() => this.categoryService.getCateogryById(id));
     }
 
@@ -34,22 +34,22 @@ export class CategoryController {
     @ApiBearerAuth('accessToken')
     async getAllCategories(
         @Query('page', new DefaultValuePipe(1) , ParseIntPipe) page:number,
-        @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number,
-        @Res() res: Response) {
+        @Query('limit', new DefaultValuePipe(10) , ParseIntPipe) limit:number
+        ) {
         return await this.responseTemplate.createResponseTemplate(() => this.categoryService.getAllCategories(page,limit));
     }
 
     @Put('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async modifyCategory(@Param('id') id: number, @Body() categoryRequest: CategoryRequest,@Res() res: Response) {
+    async modifyCategory(@Param('id') id: number, @Body() categoryRequest: CategoryRequest) {
         return await this.responseTemplate.createResponseTemplate(() => this.categoryService.modifyCategory(id,categoryRequest));
     }
 
     @Delete('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth('accessToken')
-    async deleteCategory(@Param('id') id: number,@Res() res: Response) {
+    async deleteCategory(@Param('id') id: number) {
         return await this.responseTemplate.createResponseTemplate(() => this.categoryService.deleteCategory(id));
     }
 }

@@ -16,26 +16,26 @@ export class UserController {
   ) {}
 
   @Post('register')
-  async createUser(@Body() userData: UserRequest, @Res() res: Response) {
+  async createUser(@Body() userData: UserRequest) {
     return await this.responseTemplate.createResponseTemplate(() => this.userService.createUser(userData));
   }
 
   @Post('login')
-  async login(@Body() loginRequest: LoginRequest, @Res() res: Response) {
+  async login(@Body() loginRequest: LoginRequest) {
     return await this.responseTemplate.createResponseTemplate(() => this.userService.login(loginRequest));
   }
 
   @Get('/:id')
   @UseGuards(AuthGuard)
   @ApiBearerAuth('accessToken')
-  async getUser(@Param('id') id: number, @Res() res: Response) {
+  async getUser(@Param('id') id: number) {
     return await this.responseTemplate.createResponseTemplate(() => this.userService.getUserById(id));
   }
 
   @Get('/')
   @UseGuards(AuthGuard)
   @ApiBearerAuth('accessToken')
-  async getAllUsers(@Res() res: Response) {
+  async getAllUsers() {
     return await this.responseTemplate.createResponseTemplate(() => this.userService.getAllUsers());
   }
 }
